@@ -1,15 +1,9 @@
-import { Button } from "./components/ui/button"
+import MorningSection from "./features/sections/MorningSection"
 
 function App() {
-  const show = (text: any) => {
-    console.log(text)
-  }
-  show("ok")
  
   return (
-    <div className="text-red-500 font-bold">
-      <Button>Click me</Button>
-    </div>
+    <MorningSection />
   )
 }
 
