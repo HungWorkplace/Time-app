@@ -3,9 +3,9 @@ function App() {
     console.log(text)
   }
   show("ok")
-
+ 
   return (
-    <div>App</div>
+    <div className="text-red-500 font-bold">App</div>
   )
 }
 
