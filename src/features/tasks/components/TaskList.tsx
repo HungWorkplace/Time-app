@@ -1,7 +1,11 @@
+import Task from "./Task";
+
 function TaskList() {
   return (
-    <div>TaskList</div>
-  )
+    <div className="pt-5">
+      <Task />
+    </div>
+  );
 }
 
-export default TaskList
+export default TaskList;
