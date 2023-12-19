@@ -1,3 +1,5 @@
+import { Button } from "./components/ui/button"
+
 function App() {
   const show = (text: any) => {
     console.log(text)
@@ -5,7 +7,9 @@ function App() {
   show("ok")
  
   return (
-    <div className="text-red-500 font-bold">App</div>
+    <div className="text-red-500 font-bold">
+      <Button>Click me</Button>
+    </div>
   )
 }
 
