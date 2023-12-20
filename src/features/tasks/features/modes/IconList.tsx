@@ -10,7 +10,7 @@ interface IconList {
 function IconList({ onClose, showModeIcon }: IconList) {
   const modeList = useRef<HTMLDivElement>(null);
   const { minutes, percent, flex } = TASK_MODE;
-  const { setCurrentMode } = useModeContext();
+  const { setCurrentMode, setTouchedIconBox } = useModeContext();
 
   //   Handle outside click
   useEffect(() => {
@@ -33,6 +33,8 @@ function IconList({ onClose, showModeIcon }: IconList) {
   const switchIcon = (mode: any) => {
     setCurrentMode(mode);
     onClose((prevState: any) => !prevState);
+
+    setTouchedIconBox((preState: number) => preState + 1);
   };
 
   return (
