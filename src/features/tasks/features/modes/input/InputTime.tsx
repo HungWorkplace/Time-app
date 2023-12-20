@@ -13,18 +13,18 @@ function InputTime() {
   }, [touchedIconBox]);
 
   const handleChange = (event) => {
-    const value = event.target.value;
-    value.replace(/\D/, "");
+    const maxLength = 3;
+    const value = parseInt(event.target.value) + "";
+
+    if (value.length > maxLength) {
+      inputRef.current.value = value.slice(0, maxLength);
+    } else {
+      inputRef.current.value = value;
+    }
   };
 
   const handleClick = () => {
     inputRef.current.select();
-  };
-
-  const handleKeyDown = (event) => {
-    if (inputRef.current.value.length > 2) {
-      event.preventDefault();
-    }
   };
 
   return (
@@ -32,10 +32,9 @@ function InputTime() {
       ref={inputRef}
       defaultValue={0}
       onChange={handleChange}
-      onKeyDown={handleKeyDown}
       onClick={handleClick}
       type="number"
-      className="border rounded-md outline-none py-1 w-10 text-center focus:border-sky-300"
+      className="border rounded-md outline-none py-1 w-10 text-center text-xs focus:border-sky-300"
     />
   );
 }
