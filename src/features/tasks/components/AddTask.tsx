@@ -1,3 +1,5 @@
+import TaskMode from "../features/modes/TaskMode";
+
 function AddTask() {
   return (
     <div className="w-full flex py-2 border-b border-[#F0F1F3]">
@@ -7,11 +9,7 @@ function AddTask() {
         placeholder="Task Name"
       />
       <div className="flex-1 flex gap-3">
-        <input
-          type="number"
-          maxLength={3}
-          className="border outline-none w-10 text-center appearance-none"
-        />
+        <TaskMode />
       </div>
     </div>
   );
