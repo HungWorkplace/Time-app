@@ -1,19 +1,21 @@
 import { useState } from "react";
 import IconList from "./IconList";
+import useModeContext from "./hooks/useModeContext";
 
 function ModeSelect() {
-  const [showModeIcon, setShowModeIcon] = useState(false);
+  const [showModeListBox, setShowModeListBox] = useState(false);
+  const { currentMode } = useModeContext();
 
   return (
     <div className="relative">
       <span
-        onClick={() => setShowModeIcon((preState) => !preState)}
-        className="font-bold px-3 rounded cursor-pointer select-none hover:bg-gray-100 "
+        onClick={() => setShowModeListBox((preState) => !preState)}
+        className="inline-flex items-center justify-center h-7 w-9 font-bold rounded cursor-pointer select-none hover:bg-gray-100 "
       >
-        m
+        {currentMode.icon}
       </span>
-      {showModeIcon && (
-        <IconList onClose={setShowModeIcon} showModeIcon={showModeIcon} />
+      {showModeListBox && (
+        <IconList onClose={setShowModeListBox} showModeIcon={showModeListBox} />
       )}
     </div>
   );

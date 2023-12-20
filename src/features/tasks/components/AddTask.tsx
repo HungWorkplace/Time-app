@@ -1,4 +1,5 @@
 import TaskMode from "../features/modes/TaskMode";
+import ModeProvider from "../features/modes/contexts/mode-context";
 
 function AddTask() {
   return (
@@ -9,7 +10,9 @@ function AddTask() {
         placeholder="Task Name"
       />
       <div className="flex-1 flex gap-3">
-        <TaskMode />
+        <ModeProvider>
+          <TaskMode />
+        </ModeProvider>
       </div>
     </div>
   );

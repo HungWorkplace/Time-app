@@ -1,12 +1,12 @@
+import InputMode from "./InputMode";
 import ModeSelect from "./ModeSelect";
 
 function TaskMode() {
   return (
     <div>
       <ModeSelect />
-      <div></div>
+      <InputMode />
     </div>
-    // Input mode
   );
 }
 
