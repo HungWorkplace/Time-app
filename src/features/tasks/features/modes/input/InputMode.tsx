@@ -1,5 +1,6 @@
 import useModeContext from "../hooks/useModeContext";
 import TASK_MODE from "../mode";
+import InputPercent from "./InputPercent";
 import InputTime from "./InputTime";
 
 function InputMode() {
@@ -12,7 +13,7 @@ function InputMode() {
       case minutes.label:
         return <InputTime />;
       case percent.label:
-        return;
+        return <InputPercent />;
       case flex.label:
         return;
       default:

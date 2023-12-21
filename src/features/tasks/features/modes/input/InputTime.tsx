@@ -12,9 +12,10 @@ function InputTime() {
     }
   }, [touchedIconBox]);
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const maxLength = 3;
-    const value = parseInt(event.target.value) + "";
+    const paresInt = parseInt(event.target.value);
+    const value = Number.isNaN(paresInt) ? "0" : paresInt.toString();
 
     if (value.length > maxLength) {
       inputRef.current.value = value.slice(0, maxLength);
