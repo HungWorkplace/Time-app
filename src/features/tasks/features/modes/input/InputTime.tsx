@@ -2,15 +2,14 @@ import { useEffect, useRef } from "react";
 import useModeContext from "../hooks/useModeContext";
 
 function InputTime() {
-  const { touchedIconBox } = useModeContext();
-  const inputRef = useRef<HTMLInputElement>(null!);
+  const { touchedIconBox, inputRef, addTask } = useModeContext();
 
   useEffect(() => {
     if (touchedIconBox > 0) {
       inputRef.current.focus();
       inputRef.current.select();
     }
-  }, [touchedIconBox]);
+  }, [touchedIconBox, inputRef]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const maxLength = 3;
@@ -28,12 +27,23 @@ function InputTime() {
     inputRef.current.select();
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      addTask();
+      inputRef.current.value = "0";
+      return;
+    }
+  };
+
   return (
     <input
       ref={inputRef}
       defaultValue={0}
       onChange={handleChange}
       onClick={handleClick}
+      onKeyDown={handleKeyDown}
+      autoComplete="off"
+      id="minute-input"
       type="number"
       className="border rounded-md outline-none py-1 w-10 text-center text-xs focus:border-sky-300"
     />

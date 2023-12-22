@@ -35,6 +35,8 @@ function InputPercent() {
         defaultValue={0}
         onChange={handleChange}
         onClick={handleClick}
+        autoComplete="off"
+        id="percent-input"
         type="number"
         className="border rounded-md outline-none py-1 w-10 text-center text-xs focus:border-pink-300"
       />

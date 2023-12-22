@@ -2,7 +2,7 @@ import { ArrowsOutLineVertical, Percent } from "@phosphor-icons/react";
 
 const TASK_MODE = {
   minutes: {
-    label: "minutes",
+    label: "minute",
     icon: "m",
   },
   percent: {

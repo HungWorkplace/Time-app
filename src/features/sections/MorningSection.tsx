@@ -1,5 +1,6 @@
 import AddTask from "../tasks/components/AddTask";
 import TaskList from "../tasks/components/TaskList";
+import ModeProvider from "../tasks/features/modes/contexts/mode-context";
 
 function MorningSection() {
   return (
@@ -8,7 +9,9 @@ function MorningSection() {
         <p className="font-semibold">3:30</p>
       </header>
       <TaskList />
-      <AddTask />
+      <ModeProvider>
+        <AddTask />
+      </ModeProvider>
     </div>
   );
 }
