@@ -35,6 +35,7 @@ function ModeProvider({ children }: ModeProvider) {
 
     currentContent.value = "";
     currentContent.focus();
+    inputRef.current.value = "0";
   };
 
   const value = {

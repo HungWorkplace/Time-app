@@ -1,14 +1,63 @@
 import { useSelector } from "react-redux";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import Task from "./Task";
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import { taskListActions } from "@/store/slices/taskListSlice";
+import { useDispatch } from "react-redux";
 
 function TaskList() {
+  const [activeTask, setActiveTask] = useState(null);
   const tasks = useSelector((state) => state.taskList.tasks);
+  const dispatch = useDispatch();
 
   const renderedTaskList = tasks.map((task) => {
     return <Task key={task.id} task={task} />;
   });
 
-  return <div className="pt-5">{renderedTaskList}</div>;
+  const handleDragStart = (event) => {
+    const data = event.active.data.current;
+
+    setActiveTask(data);
+  };
+
+  const handleDragEnd = (event) => {
+    setActiveTask(null);
+
+    const { active, over } = event;
+
+    if (!over) return;
+
+    if (active.id !== over.id) {
+      const oldIndex = tasks.findIndex((task) => task.id === active.id);
+      const newIndex = tasks.findIndex((task) => task.id === over.id);
+
+      const newTasks = arrayMove(tasks, oldIndex, newIndex);
+
+      dispatch(taskListActions.setTasks(newTasks));
+    }
+  };
+
+  return (
+    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+      <div className="pt-5 flex flex-col">
+        <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
+          {renderedTaskList}
+        </SortableContext>
+        {createPortal(
+          <DragOverlay>
+            {activeTask && <Task isOverlay task={activeTask} />}
+          </DragOverlay>,
+          document.body
+        )}
+      </div>
+    </DndContext>
+  );
 }
 
 export default TaskList;

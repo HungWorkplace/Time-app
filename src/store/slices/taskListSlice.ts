@@ -4,11 +4,9 @@ import { DUMMY_TASKS } from "./dummyData";
 
 type Task = {
   id: string;
+  partOfDayId: string[];
   content: string;
-  duration: {
-    morning: number;
-    afternoon: number;
-  };
+  duration: number;
   percent: {
     value: number;
     allDay: boolean;
@@ -20,23 +18,30 @@ const taskListSlice = createSlice({
   name: "tasks",
   initialState: {
     tasks: DUMMY_TASKS as Task[],
+    partOfDays: [
+      {
+        id: "part-1",
+        title: "Untitled",
+      },
+    ],
   },
   reducers: {
     addTask: (state, action) => {
       const { content, duration, mode } = action.payload;
       state.tasks.push({
         id: uuidv4(),
+        partOfDayId: ["part-1"],
         content,
-        duration: {
-          morning: duration,
-          afternoon: 0,
-        },
+        duration,
         percent: {
           value: 0,
           allDay: false,
         },
         mode,
       });
+    },
+    setTasks: (state, action) => {
+      state.tasks = action.payload;
     },
   },
 });
