@@ -1,24 +1,22 @@
-import { useEffect, useRef, useState } from "react";
-import useModeContext from "../hooks/useModeContext";
+import { useEffect } from "react";
 import { timeFormat } from "@/utils/dateTimeFormat";
 import useSectionTaskContext from "@/contexts/useSectionTaskContext";
+import useModeContext from "@/contexts/useModeContext";
 
 function InputPercent() {
-  const { touchedIconBox } = useModeContext();
-  const { sectionDuration, totalTime, tempoDuration, setTempoDuration } =
+  const { touchedIconBox, inputRef, addTask } = useModeContext();
+  const { sectionDuration, tempoDuration, setTempoDuration } =
     useSectionTaskContext();
-  const inputRef = useRef<HTMLInputElement>(null!);
 
   useEffect(() => {
     if (touchedIconBox > 0) {
       inputRef.current.focus();
       inputRef.current.select();
     }
-  }, [touchedIconBox]);
+  }, [touchedIconBox, inputRef]);
 
   const preview = (value: number) => {
-    const remainingTime = sectionDuration - totalTime;
-    const calculatePercent = remainingTime * (value / 100);
+    const calculatePercent = sectionDuration * (value / 100);
     setTempoDuration(calculatePercent);
   };
 
@@ -39,6 +37,12 @@ function InputPercent() {
     inputRef.current.select();
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      addTask();
+    }
+  };
+
   return (
     <div className="flex gap-1">
       <input
@@ -46,6 +50,7 @@ function InputPercent() {
         defaultValue={0}
         onChange={handleChange}
         onClick={handleClick}
+        onKeyDown={handleKeyDown}
         autoComplete="off"
         id="percent-input"
         type="number"

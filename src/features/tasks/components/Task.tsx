@@ -5,7 +5,7 @@ import TASK_MODE from "../features/modes/mode";
 import { timeFormat } from "@/utils/dateTimeFormat";
 
 function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
-  const { content, duration, mode } = task;
+  const { content, duration, mode, percent: percentTask } = task;
 
   const {
     setNodeRef,
@@ -22,27 +22,27 @@ function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
   };
 
   const classes = cx(
-    "flex justify-between px-3 py-2 border-b border-[#F0F1F3] cursor-pointer bg-white rounded-md",
+    "flex justify-between px-3 py-2 border-b border-[#F0F1F3] cursor-pointer bg-white rounded-md transition-[width] ease-in duration-300",
     {
       "relative z-50": isDragging,
-      "shadow-md w-[90%]": isOverlay,
+      "shadow-md w-[95%]": isOverlay,
     },
   );
 
-  const renderedModeIcon = () => {
+  const renderedMode = (() => {
     const { minutes, percent, flex } = TASK_MODE;
 
     switch (mode) {
       case minutes.label:
-        return minutes.icon;
+        return { icon: minutes.icon };
       case percent.label:
-        return percent.icon;
+        return { icon: percent.icon, value: percentTask.value };
       case flex.label:
-        return flex.icon;
+        return { icon: flex.icon };
       default:
         return "";
     }
-  };
+  })();
 
   return (
     <div
@@ -54,8 +54,11 @@ function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
     >
       <p className="font-medium">{content}</p>
 
-      <div className="flex cursor-pointer gap-3 border-b border-dashed">
-        <span className="font-bold">{renderedModeIcon()}</span>
+      <div className="flex cursor-pointer items-end gap-3 border-b border-dashed">
+        {renderedMode.value && (
+          <span className="text-xs">{renderedMode.value}</span>
+        )}
+        <span className="font-bold">{renderedMode.icon}</span>
         <span>{timeFormat(duration)}</span>
       </div>
 

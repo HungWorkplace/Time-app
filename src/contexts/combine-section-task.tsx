@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 export const SectionTaskContext = createContext({});
 
 function SectionTaskProvider({ part, children }) {
-  const [tempoDuration, setTempoDuration] = useState("");
+  const [tempoDuration, setTempoDuration] = useState(0);
   const tasks = useSelector((state) => state.taskList.tasks);
 
   // All tasks in this section

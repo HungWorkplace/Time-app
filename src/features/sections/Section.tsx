@@ -1,7 +1,7 @@
 import useSectionTaskContext from "@/contexts/useSectionTaskContext";
 import AddTask from "../tasks/components/AddTask";
 import TaskList from "../tasks/components/TaskList";
-import ModeProvider from "../tasks/features/modes/contexts/mode-context";
+import ModeProvider from "../../contexts/mode-context";
 import { cva } from "class-variance-authority";
 import { timeFormat } from "@/utils/dateTimeFormat";
 

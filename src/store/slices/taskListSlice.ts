@@ -29,15 +29,15 @@ const taskListSlice = createSlice({
   },
   reducers: {
     addTask: (state, action) => {
-      const { content, duration, mode } = action.payload;
+      const { content, duration, mode, percent } = action.payload;
       state.tasks.push({
         id: uuidv4(),
         partOfDayId: ["part-1"],
         content,
         duration,
         percent: {
-          value: 0,
-          allDay: false,
+          value: percent.value || 0,
+          allDay: percent.allDay || false,
         },
         mode,
       });

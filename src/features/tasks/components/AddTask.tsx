@@ -1,6 +1,6 @@
 import { useState } from "react";
 import TaskMode from "../features/modes/TaskMode";
-import useModeContext from "../features/modes/hooks/useModeContext";
+import useModeContext from "../../../contexts/useModeContext";
 import { Plus } from "@phosphor-icons/react";
 
 function AddTask() {

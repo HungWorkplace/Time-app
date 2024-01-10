@@ -1,6 +1,6 @@
-import { useEffect, useRef } from "react";
-import useModeContext from "../hooks/useModeContext";
+import { useEffect } from "react";
 import useSectionTaskContext from "@/contexts/useSectionTaskContext";
+import useModeContext from "@/contexts/useModeContext";
 
 function InputTime() {
   const { touchedIconBox, inputRef, addTask } = useModeContext();
@@ -35,7 +35,6 @@ function InputTime() {
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       addTask();
-      setTempoDuration("");
       return;
     }
   };

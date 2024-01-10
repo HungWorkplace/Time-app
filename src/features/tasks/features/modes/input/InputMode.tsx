@@ -1,4 +1,4 @@
-import useModeContext from "../hooks/useModeContext";
+import useModeContext from "@/contexts/useModeContext";
 import TASK_MODE from "../mode";
 import InputPercent from "./InputPercent";
 import InputTime from "./InputTime";
