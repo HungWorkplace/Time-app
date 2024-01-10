@@ -3,7 +3,7 @@ import ModeSelect from "./ModeSelect";
 
 function TaskMode() {
   return (
-    <div className="flex gap-1 items-center">
+    <div className="flex items-center gap-1">
       <ModeSelect />
       <InputMode />
     </div>

@@ -22,6 +22,8 @@ const taskListSlice = createSlice({
       {
         id: "part-1",
         title: "Untitled",
+        startTime: new Date().setHours(7, 0, 0),
+        endTime: new Date().setHours(11, 55, 0),
       },
     ],
   },

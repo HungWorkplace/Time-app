@@ -1,9 +1,12 @@
-import { Checkbox } from "@/components/ui/checkbox";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import useModeContext from "../hooks/useModeContext";
+import { timeFormat } from "@/utils/dateTimeFormat";
+import useSectionTaskContext from "@/contexts/useSectionTaskContext";
 
 function InputPercent() {
   const { touchedIconBox } = useModeContext();
+  const { sectionDuration, totalTime, tempoDuration, setTempoDuration } =
+    useSectionTaskContext();
   const inputRef = useRef<HTMLInputElement>(null!);
 
   useEffect(() => {
@@ -13,14 +16,22 @@ function InputPercent() {
     }
   }, [touchedIconBox]);
 
+  const preview = (value: number) => {
+    const remainingTime = sectionDuration - totalTime;
+    const calculatePercent = remainingTime * (value / 100);
+    setTempoDuration(calculatePercent);
+  };
+
   const handleChange = (event: any) => {
     const maxValue = 100;
     const value = parseInt(event.target.value) || 0;
 
     if (value > maxValue) {
       inputRef.current.value = 100 + "";
+      preview(100);
     } else {
       inputRef.current.value = value + "";
+      preview(value);
     }
   };
 
@@ -29,7 +40,7 @@ function InputPercent() {
   };
 
   return (
-    <div className="flex gap-5">
+    <div className="flex gap-1">
       <input
         ref={inputRef}
         defaultValue={0}
@@ -38,12 +49,12 @@ function InputPercent() {
         autoComplete="off"
         id="percent-input"
         type="number"
-        className="border rounded-md outline-none py-1 w-10 text-center text-xs focus:border-pink-300"
+        className="w-10 rounded-md border py-1 text-center text-xs outline-none focus:border-pink-300"
       />
-      <div className="flex gap-2 items-center">
-        <p>All day</p>
-        <Checkbox className="border-gray-300" />
-      </div>
+      <span>-</span>
+      <span className="flex items-center rounded-md bg-gray-100 px-2 text-center text-xs">
+        {timeFormat(+tempoDuration)}
+      </span>
     </div>
   );
 }

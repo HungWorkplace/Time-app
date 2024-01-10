@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import useModeContext from "../hooks/useModeContext";
+import useSectionTaskContext from "@/contexts/useSectionTaskContext";
 
 function InputTime() {
   const { touchedIconBox, inputRef, addTask } = useModeContext();
+  const { setTempoDuration } = useSectionTaskContext();
 
   useEffect(() => {
     if (touchedIconBox > 0) {
@@ -17,9 +19,12 @@ function InputTime() {
     const value = Number.isNaN(paresInt) ? "0" : paresInt.toString();
 
     if (value.length > maxLength) {
-      inputRef.current.value = value.slice(0, maxLength);
+      const cutValue = value.slice(0, maxLength);
+      inputRef.current.value = cutValue;
+      setTempoDuration(+cutValue * 60 * 1000);
     } else {
       inputRef.current.value = value;
+      setTempoDuration(+value * 60 * 1000);
     }
   };
 
@@ -30,7 +35,7 @@ function InputTime() {
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       addTask();
-      inputRef.current.value = "0";
+      setTempoDuration("");
       return;
     }
   };
@@ -45,7 +50,7 @@ function InputTime() {
       autoComplete="off"
       id="minute-input"
       type="number"
-      className="border rounded-md outline-none py-1 w-10 text-center text-xs focus:border-sky-300"
+      className="w-10 rounded-md border py-1 text-center text-xs outline-none focus:border-sky-300"
     />
   );
 }

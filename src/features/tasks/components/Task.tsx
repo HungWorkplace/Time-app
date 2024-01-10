@@ -1,8 +1,8 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cx } from "class-variance-authority";
-import { Duration } from "luxon";
 import TASK_MODE from "../features/modes/mode";
+import { timeFormat } from "@/utils/dateTimeFormat";
 
 function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
   const { content, duration, mode } = task;
@@ -25,11 +25,9 @@ function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
     "flex justify-between px-3 py-2 border-b border-[#F0F1F3] cursor-pointer bg-white rounded-md",
     {
       "relative z-50": isDragging,
-      "shadow-md scale-100": isOverlay,
-    }
+      "shadow-md w-[90%]": isOverlay,
+    },
   );
-
-  const formatDuration = Duration.fromMillis(duration).toFormat("h:mm");
 
   const renderedModeIcon = () => {
     const { minutes, percent, flex } = TASK_MODE;
@@ -56,9 +54,9 @@ function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
     >
       <p className="font-medium">{content}</p>
 
-      <div className="flex gap-3 border-b border-dashed cursor-pointer">
+      <div className="flex cursor-pointer gap-3 border-b border-dashed">
         <span className="font-bold">{renderedModeIcon()}</span>
-        <span>{formatDuration}</span>
+        <span>{timeFormat(duration)}</span>
       </div>
 
       {isDragging && (

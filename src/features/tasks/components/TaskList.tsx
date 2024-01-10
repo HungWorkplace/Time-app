@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -10,15 +9,16 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { taskListActions } from "@/store/slices/taskListSlice";
 import { useDispatch } from "react-redux";
+import useSectionTaskContext from "@/contexts/useSectionTaskContext";
 
 function TaskList() {
+  const tasks = useSectionTaskContext().sectionTasks;
   const [activeTask, setActiveTask] = useState(null);
-  const tasks = useSelector((state) => state.taskList.tasks);
   const dispatch = useDispatch();
 
-  const renderedTaskList = tasks.map((task) => {
-    return <Task key={task.id} task={task} />;
-  });
+  const renderedTaskList = tasks.map((task) => (
+    <Task key={task.id} task={task} />
+  ));
 
   const handleDragStart = (event) => {
     const data = event.active.data.current;

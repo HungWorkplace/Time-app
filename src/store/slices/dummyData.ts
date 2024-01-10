@@ -19,7 +19,7 @@ export const DUMMY_TASKS = [
       value: 0,
       allDay: false,
     },
-    mode: "percent",
+    mode: "minute",
   },
   {
     id: "2",
@@ -36,12 +36,12 @@ export const DUMMY_TASKS = [
     id: "3",
     partOfDayId: ["part-1"],
     content: "Write a journal",
-    duration: 90 * 60 * 1000,
+    duration: 30 * 60 * 1000,
     percent: {
       value: 0,
       allDay: false,
     },
-    mode: "flex",
+    mode: "minute",
   },
   {
     id: "4",
@@ -52,7 +52,7 @@ export const DUMMY_TASKS = [
       value: 0,
       allDay: false,
     },
-    mode: "flex",
+    mode: "minute",
   },
   {
     id: "5",
