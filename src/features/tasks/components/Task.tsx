@@ -59,7 +59,7 @@ function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
           <span className="text-xs">{renderedMode.value}</span>
         )}
         <span className="font-bold">{renderedMode.icon}</span>
-        <span>{timeFormat(duration)}</span>
+        <span className="w-9 text-right">{timeFormat(duration)}</span>
       </div>
 
       {isDragging && (

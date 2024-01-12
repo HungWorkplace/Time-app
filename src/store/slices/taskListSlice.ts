@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { DUMMY_TASKS } from "./dummyData";
+import { Duration } from "luxon";
 
 type Task = {
   id: string;
@@ -21,9 +22,9 @@ const taskListSlice = createSlice({
     partOfDays: [
       {
         id: "part-1",
-        title: "Untitled",
-        startTime: new Date().setHours(7, 0, 0),
-        endTime: new Date().setHours(11, 55, 0),
+        title: "Morning",
+        startTime: Duration.fromObject({ hours: 7 }).toMillis(),
+        endTime: Duration.fromObject({ hours: 11, minutes: 55 }).toMillis(),
       },
     ],
   },

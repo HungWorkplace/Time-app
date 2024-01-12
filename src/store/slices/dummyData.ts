@@ -54,15 +54,4 @@ export const DUMMY_TASKS = [
     },
     mode: "minute",
   },
-  {
-    id: "5",
-    partOfDayId: ["part-1"],
-    content: "Take a short nap",
-    duration: 15 * 60 * 1000,
-    percent: {
-      value: 0,
-      allDay: false,
-    },
-    mode: "minute",
-  },
 ];

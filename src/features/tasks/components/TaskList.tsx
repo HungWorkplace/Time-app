@@ -45,7 +45,7 @@ function TaskList() {
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="pt-5 flex flex-col">
+      <div className="flex flex-col">
         <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
           {renderedTaskList}
         </SortableContext>
@@ -53,7 +53,7 @@ function TaskList() {
           <DragOverlay>
             {activeTask && <Task isOverlay task={activeTask} />}
           </DragOverlay>,
-          document.body
+          document.body,
         )}
       </div>
     </DndContext>
