@@ -2,7 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cx } from "class-variance-authority";
 import TASK_MODE from "../features/modes/mode";
-import { timeFormat } from "@/utils/dateTimeFormat";
+import { formatDuration } from "@/utils/dateTimeFormat";
 
 function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
   const { content, duration, mode, percent: percentTask } = task;
@@ -59,7 +59,7 @@ function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
           <span className="text-xs">{renderedMode.value}</span>
         )}
         <span className="font-bold">{renderedMode.icon}</span>
-        <span className="w-9 text-right">{timeFormat(duration)}</span>
+        <span className="w-9 text-right">{formatDuration(duration)}</span>
       </div>
 
       {isDragging && (

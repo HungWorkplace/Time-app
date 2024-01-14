@@ -1,6 +1,6 @@
-import { Duration } from "luxon";
+import { DateTime, Duration } from "luxon";
 
-export const timeFormat = (
+export const formatDuration = (
   milliseconds: number,
   symbol = { positiveSign: false },
 ) => {
@@ -10,4 +10,8 @@ export const timeFormat = (
   return (
     sign + Duration.fromMillis(milliseconds).toFormat("h:mm").replace(/-/g, "")
   );
+};
+
+export const formatTime = (milliseconds: number) => {
+  return DateTime.fromMillis(milliseconds).toFormat("h:mm a").toLowerCase();
 };

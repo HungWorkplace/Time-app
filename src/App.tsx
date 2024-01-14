@@ -12,11 +12,10 @@ function App() {
   ));
 
   return (
-    <div className="mx-auto max-w-[720px] px-5 text-sm text-[#2a2e34]">
-      <header className="w-full bg-gray-400 px-4 py-2 text-base font-semibold text-white">
-        TIME
-      </header>
-      <div className="mt-5">{renderedSection}</div>
+    <div className="mx-auto max-w-[784px] px-5 text-sm text-[#2a2e34]">
+      <div className="mt-20">
+        <div className="px-5">{renderedSection}</div>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { timeFormat } from "@/utils/dateTimeFormat";
+import { formatDuration } from "@/utils/dateTimeFormat";
 import useSectionTaskContext from "@/contexts/useSectionTaskContext";
 import useModeContext from "@/contexts/useModeContext";
 
@@ -58,7 +58,7 @@ function InputPercent() {
       />
       <span>-</span>
       <span className="flex items-center rounded-md bg-gray-100 px-2 text-center text-xs">
-        {timeFormat(+tempoDuration)}
+        {formatDuration(+tempoDuration)}
       </span>
     </div>
   );
