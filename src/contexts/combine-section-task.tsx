@@ -15,19 +15,22 @@ function SectionTaskProvider({ part, children }) {
   });
 
   // Total time of all tasks
-  const totalTime = sectionTasks.reduce((sum, task) => sum + task.duration, 0);
+  const totalTasksTime = sectionTasks.reduce(
+    (sum, task) => sum + task.duration,
+    0,
+  );
 
   // Duration of Section (Morning: 3:30)
   const sectionDuration = part.endTime - part.startTime;
-  const remainingTime = sectionDuration - totalTime - +tempoDuration;
+  const freeTime = sectionDuration - totalTasksTime - +tempoDuration;
 
   const value = {
     part,
     sectionTasks,
-    totalTime,
+    totalTasksTime,
     tempoDuration,
     setTempoDuration,
-    remainingTime,
+    freeTime,
     sectionDuration,
   };
 

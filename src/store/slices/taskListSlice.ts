@@ -5,7 +5,7 @@ import { DUMMY_TASKS } from "./dummyData";
 type Task = {
   id: string;
   partOfDayId: string[];
-  content: string;
+  title: string;
   duration: number;
   percent: {
     value: number;
@@ -29,11 +29,11 @@ const taskListSlice = createSlice({
   },
   reducers: {
     addTask: (state, action) => {
-      const { content, duration, mode, percent } = action.payload;
+      const { title, duration, mode, percent } = action.payload;
       state.tasks.push({
         id: uuidv4(),
         partOfDayId: ["part-1"],
-        content,
+        title,
         duration,
         percent: {
           value: percent.value || 0,

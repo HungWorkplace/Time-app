@@ -49,7 +49,7 @@ function InputTime() {
       autoComplete="off"
       id="minute-input"
       type="number"
-      className="w-10 rounded-md border py-1 text-center text-xs outline-none focus:border-sky-300"
+      className="w-10 border-b py-1 text-center text-sm outline-none focus:border-black"
     />
   );
 }

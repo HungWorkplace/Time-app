@@ -43,7 +43,7 @@ function ModeProvider({ children }: ModeProvider) {
 
     dispatch(
       taskListActions.addTask({
-        content: currentContent.value || "",
+        title: currentContent.value || "",
         duration,
         percent: {
           value: percentValue,

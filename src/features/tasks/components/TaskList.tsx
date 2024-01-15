@@ -16,10 +16,6 @@ function TaskList() {
   const [activeTask, setActiveTask] = useState(null);
   const dispatch = useDispatch();
 
-  const renderedTaskList = tasks.map((task) => (
-    <Task key={task.id} task={task} />
-  ));
-
   const handleDragStart = (event) => {
     const data = event.active.data.current;
 
@@ -42,6 +38,10 @@ function TaskList() {
       dispatch(taskListActions.setTasks(newTasks));
     }
   };
+
+  const renderedTaskList = tasks.map((task) => (
+    <Task key={task.id} task={task} />
+  ));
 
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>

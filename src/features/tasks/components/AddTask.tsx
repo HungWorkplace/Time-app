@@ -35,17 +35,19 @@ function AddTask() {
 
   return (
     <div className="relative w-full border-[#F0F1F3]">
-      <div className="flex border-b px-3 py-2">
+      <div className="flex h-10 items-center justify-between border-b px-3">
+        {/* warning: input must have ID */}
         <input
+          id="add-task"
           ref={inputRef}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           autoComplete="off"
           type="text"
-          className="flex-[3_3_0%] font-medium outline-none placeholder:font-normal placeholder:text-[#C8C8C8]"
           placeholder="Task Name"
+          className="flex-1 text-sm font-medium outline-none placeholder:font-light placeholder:text-gray-400"
         />
-        <div className="flex flex-[2_2_0%] justify-between gap-3">
+        <div className="flex flex-1 justify-between gap-3">
           <TaskMode />
         </div>
       </div>
