@@ -7,12 +7,30 @@ import Progress from "@/components/Progress";
 import { Play } from "@phosphor-icons/react";
 import CountDown from "../tasks/components/CountDown";
 import { useState } from "react";
+import { cx } from "class-variance-authority";
 
 function Section() {
-  const { part, totalTasksTime } = useSectionTaskContext();
+  const { part, totalTasksTime, ready, setActiveWarning } =
+    useSectionTaskContext();
+
   const [start, setStart] = useState(false);
 
   const { title, startTime, endTime } = part;
+
+  const startCountdown = () => {
+    setActiveWarning((preState) => ({
+      value: true,
+      animationKey: preState.animationKey + 1,
+    }));
+  };
+
+  const buttonClasses = cx(
+    "flex h-[2.1875rem] w-[4.75rem] items-center justify-center rounded-full",
+    {
+      "bg-black": ready,
+      "bg-[#CACACA]": !ready,
+    },
+  );
 
   return (
     <div className="flex flex-col gap-4">
@@ -40,10 +58,7 @@ function Section() {
       {/* Start */}
       {!start && (
         <div className="flex items-center justify-center gap-6">
-          <button
-            onClick={() => setStart(true)}
-            className="flex h-[2.1875rem] w-[4.75rem] items-center justify-center rounded-full bg-black"
-          >
+          <button onClick={startCountdown} className={buttonClasses}>
             <Play size={18} color="white" />
           </button>
           <p className="text-xs">

@@ -1,10 +1,16 @@
-import { createContext, useState } from "react";
+// SectionTaskProvider
+import { createContext, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 
 export const SectionTaskContext = createContext({});
 
 function SectionTaskProvider({ part, children }) {
   const [tempoDuration, setTempoDuration] = useState(0);
+  const [ready, setReady] = useState(false);
+  const [activeWarning, setActiveWarning] = useState({
+    value: false,
+    animationKey: 0,
+  });
   const tasks = useSelector((state) => state.taskList.tasks);
 
   // All tasks in this section
@@ -22,7 +28,13 @@ function SectionTaskProvider({ part, children }) {
 
   // Duration of Section (Morning: 3:30)
   const sectionDuration = part.endTime - part.startTime;
-  const freeTime = sectionDuration - totalTasksTime - +tempoDuration;
+  const freeTime = useMemo(() => {
+    return sectionDuration - totalTasksTime - +tempoDuration;
+  }, [sectionDuration, totalTasksTime, tempoDuration]);
+
+  useEffect(() => {
+    freeTime < 0 ? setReady(false) : setReady(true);
+  }, [freeTime]);
 
   const value = {
     part,
@@ -32,6 +44,10 @@ function SectionTaskProvider({ part, children }) {
     setTempoDuration,
     freeTime,
     sectionDuration,
+    ready,
+    setReady,
+    activeWarning,
+    setActiveWarning,
   };
 
   return (

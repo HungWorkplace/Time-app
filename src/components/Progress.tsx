@@ -1,6 +1,12 @@
+import { useRef } from "react";
 import useSectionTaskContext from "@/contexts/useSectionTaskContext";
 import { formatDuration } from "@/utils/dateTimeFormat";
-import { useRef } from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function Progress() {
   const {
@@ -8,6 +14,7 @@ function Progress() {
     sectionDuration: total,
     freeTime,
     tempoDuration,
+    activeWarning,
   } = useSectionTaskContext();
   const width = useRef(237);
 
@@ -23,6 +30,8 @@ function Progress() {
   const totalStyle = {
     width: totalProgress + "px",
     backgroundColor: fraction <= 1 ? "#D9D9D9" : "#FFC5C5",
+    animation:
+      activeWarning.value && freeTime < 0 ? "1s ease-in bound" : undefined,
   };
 
   const currentStyle = {
@@ -40,25 +49,38 @@ function Progress() {
 
   return (
     <>
-      <div style={totalStyle} className="mb-2 h-1 overflow-hidden rounded-full">
+      {/* Progress bar */}
+      <div
+        key={activeWarning.animationKey}
+        style={totalStyle}
+        className="mb-2 h-1 overflow-hidden rounded-full ease-in"
+      >
         <div style={currentStyle} className="h-full bg-black"></div>
       </div>
-      <p className="text-xs">
+      {/* Label */}
+      <div className="text-xs">
         {fraction < 1 && (
           <>
             <span className="font-semibold">{formatDuration(freeTime)}</span>
-            <span>
-              <span className="mx-1.5">free of</span>
-              <span className="cursor-pointer underline decoration-gray-400 decoration-dotted underline-offset-4">
-                {formatDuration(total)}
-              </span>
-            </span>
+
+            <span className="mx-1.5">free of</span>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger className="underline decoration-gray-400 decoration-dotted underline-offset-4">
+                  {formatDuration(total)}
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>7:00 am - 11:55 pm</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </>
         )}
 
         {fraction > 1 && renderedOverLabel}
         {fraction === 1 && "Ready to start!"}
-      </p>
+      </div>
     </>
   );
 }

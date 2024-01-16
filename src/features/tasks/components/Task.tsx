@@ -2,9 +2,11 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cx } from "class-variance-authority";
 import { formatDuration } from "@/utils/dateTimeFormat";
+import useSectionTaskContext from "@/contexts/useSectionTaskContext";
 
 function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
   const { title, duration } = task;
+  const { activeWarning } = useSectionTaskContext();
 
   const {
     setNodeRef,
@@ -43,6 +45,14 @@ function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
   //   }
   // })();
 
+  const durationClasses = cx(
+    "flex cursor-pointer items-end gap-3 border-b border-dashed",
+    {
+      "animation-bound border-red-500 text-red-500":
+        activeWarning.value && duration <= 0,
+    },
+  );
+
   return (
     <div
       ref={setNodeRef}
@@ -53,7 +63,7 @@ function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
     >
       <p className="text-sm font-medium">{title}</p>
 
-      <div className="flex cursor-pointer items-end gap-3 border-b border-dashed">
+      <div key={activeWarning.animationKey} className={durationClasses}>
         <span className="text-right text-xs">{formatDuration(duration)}</span>
       </div>
 

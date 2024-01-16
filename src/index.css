@@ -80,4 +80,32 @@
     -webkit-appearance: none;
     margin: 0;
   }
+
+  @keyframes bound {
+    0% {
+      box-shadow: 0px 0px 0px 0px red;
+    }
+    50% {
+      box-shadow: 0px 0px 4px 0px red;
+    }
+    100% {
+      box-shadow: 0px 0px 0px 0px red;
+    }
+  }
+
+  .animation-bound {
+    animation: bound-text 1s linear;
+  }
+
+  @keyframes bound-text {
+    0% {
+      scale: 1;
+    }
+    50% {
+      scale: 1.2;
+    }
+    100% {
+      scale: 1;
+    }
+  }
 }
