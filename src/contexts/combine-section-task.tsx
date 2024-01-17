@@ -6,11 +6,11 @@ export const SectionTaskContext = createContext({});
 
 function SectionTaskProvider({ part, children }) {
   const [tempoDuration, setTempoDuration] = useState(0);
-  const [ready, setReady] = useState(false);
-  const [activeWarning, setActiveWarning] = useState({
+  const [ready, setReady] = useState({
     value: false,
     animationKey: 0,
   });
+
   const tasks = useSelector((state) => state.taskList.tasks);
 
   // All tasks in this section
@@ -32,9 +32,15 @@ function SectionTaskProvider({ part, children }) {
     return sectionDuration - totalTasksTime - +tempoDuration;
   }, [sectionDuration, totalTasksTime, tempoDuration]);
 
+  const isEmptyDuration = sectionTasks.every((task) => task.duration <= 0);
+
   useEffect(() => {
-    freeTime < 0 ? setReady(false) : setReady(true);
-  }, [freeTime]);
+    if (freeTime < 0 || isEmptyDuration) {
+      setReady((preState) => ({ ...preState, value: false }));
+      return;
+    }
+    setReady((preState) => ({ ...preState, value: true }));
+  }, [freeTime, isEmptyDuration]);
 
   const value = {
     part,
@@ -46,8 +52,6 @@ function SectionTaskProvider({ part, children }) {
     sectionDuration,
     ready,
     setReady,
-    activeWarning,
-    setActiveWarning,
   };
 
   return (

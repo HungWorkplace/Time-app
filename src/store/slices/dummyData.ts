@@ -3,7 +3,7 @@ export const DUMMY_TASKS = [
     id: "0",
     partOfDayId: ["part-1"],
     title: "Drink water",
-    duration: 0 * 60 * 1000,
+    duration: 2 * 60 * 1000,
     percent: {
       value: 0,
       allDay: false,

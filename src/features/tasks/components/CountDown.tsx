@@ -1,11 +1,29 @@
+import useSectionTaskContext from "@/contexts/useSectionTaskContext";
+import { formatDuration } from "@/utils/dateTimeFormat";
 import { Bell } from "@phosphor-icons/react";
+import { useEffect, useRef, useState } from "react";
 
 function CountDown({ onStart }) {
+  const { part } = useSectionTaskContext();
+  const now = useRef(new Date().setHours(6, 59, 0));
+
+  const [timer, setTimer] = useState(part.startTime - now.current);
+
+  useEffect(() => {
+    const timerInterval = setInterval(() => {
+      setTimer((preState) => preState - 1000);
+    }, 1000);
+
+    return () => clearInterval(timerInterval);
+  }, []);
+
   return (
     <div className="mx-auto py-6">
       <div className="flex h-56 w-56 flex-col items-center justify-center rounded-full bg-[#F5F5F5]">
         <div className="relative w-full text-center">
-          <p className="text-4xl font-semibold">14:32</p>
+          <p className="font-time text-4xl font-bold">
+            {formatDuration(timer, { seconds: true })}
+          </p>
           <div className="absolute bottom-0 left-1/2 flex w-full -translate-x-1/2 translate-y-full items-center justify-center gap-1 py-2 text-[#A1A1A1]">
             <Bell size={16} className="inline-block" />
             <span className="text-sm">8:35 AM</span>

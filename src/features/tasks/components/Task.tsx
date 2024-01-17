@@ -6,7 +6,7 @@ import useSectionTaskContext from "@/contexts/useSectionTaskContext";
 
 function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
   const { title, duration } = task;
-  const { activeWarning } = useSectionTaskContext();
+  const { ready } = useSectionTaskContext();
 
   const {
     setNodeRef,
@@ -49,7 +49,7 @@ function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
     "flex cursor-pointer items-end gap-3 border-b border-dashed",
     {
       "animation-bound border-red-500 text-red-500":
-        activeWarning.value && duration <= 0,
+        ready.value && duration <= 0,
     },
   );
 
@@ -63,7 +63,7 @@ function Task({ task, isOverlay }: { task: any; isOverlay: boolean }) {
     >
       <p className="text-sm font-medium">{title}</p>
 
-      <div key={activeWarning.animationKey} className={durationClasses}>
+      <div key={ready.animationKey} className={durationClasses}>
         <span className="text-right text-xs">{formatDuration(duration)}</span>
       </div>
 

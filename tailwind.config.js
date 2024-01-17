@@ -68,6 +68,9 @@ module.exports = {
           to: { height: 0 },
         },
       },
+      fontFamily: {
+        time: ["Nunito", "sans-serif"],
+      },
     },
     animation: {
       "accordion-down": "accordion-down 0.2s ease-out",

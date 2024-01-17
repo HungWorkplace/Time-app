@@ -8,27 +8,43 @@ import { Play } from "@phosphor-icons/react";
 import CountDown from "../tasks/components/CountDown";
 import { useState } from "react";
 import { cx } from "class-variance-authority";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 function Section() {
-  const { part, totalTasksTime, ready, setActiveWarning } =
+  const { part, totalTasksTime, ready, setReady, freeTime } =
     useSectionTaskContext();
 
   const [start, setStart] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { title, startTime, endTime } = part;
 
   const startCountdown = () => {
-    setActiveWarning((preState) => ({
-      value: true,
-      animationKey: preState.animationKey + 1,
-    }));
+    if (!ready.value) {
+      setReady((preState) => ({
+        ...preState,
+        animationKey: preState.animationKey + 1,
+      }));
+      return;
+    }
+
+    if (freeTime > 0) setOpen(true);
   };
 
   const buttonClasses = cx(
     "flex h-[2.1875rem] w-[4.75rem] items-center justify-center rounded-full",
     {
-      "bg-black": ready,
-      "bg-[#CACACA]": !ready,
+      "bg-black": ready.value,
+      "bg-[#CACACA]": !ready.value,
     },
   );
 
@@ -55,7 +71,27 @@ function Section() {
         </div>
       </header>
 
-      {/* Start */}
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              <span>You have</span>
+              <span className="mx-1 font-semibold">
+                {formatDuration(freeTime)}
+              </span>
+              <span>unused time left, do you still want to continue?</span>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction asChild>
+              <button onClick={() => setStart(true)}>Continue</button>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {!start && (
         <div className="flex items-center justify-center gap-6">
           <button onClick={startCountdown} className={buttonClasses}>

@@ -14,7 +14,7 @@ function Progress() {
     sectionDuration: total,
     freeTime,
     tempoDuration,
-    activeWarning,
+    ready,
   } = useSectionTaskContext();
   const width = useRef(237);
 
@@ -30,8 +30,7 @@ function Progress() {
   const totalStyle = {
     width: totalProgress + "px",
     backgroundColor: fraction <= 1 ? "#D9D9D9" : "#FFC5C5",
-    animation:
-      activeWarning.value && freeTime < 0 ? "1s ease-in bound" : undefined,
+    animation: !ready.value && freeTime < 0 ? "1s ease-in bound" : undefined,
   };
 
   const currentStyle = {
@@ -51,7 +50,7 @@ function Progress() {
     <>
       {/* Progress bar */}
       <div
-        key={activeWarning.animationKey}
+        key={ready.animationKey}
         style={totalStyle}
         className="mb-2 h-1 overflow-hidden rounded-full ease-in"
       >
