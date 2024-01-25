@@ -1,24 +1,48 @@
 import { DateTime, Duration } from "luxon";
 
 interface optionsType {
-  positiveSign?: boolean;
+  plusSign?: boolean;
   seconds?: boolean;
+  type?: "represent" | "digit";
 }
 
 export const formatDuration = (
   milliseconds: number,
-  options: optionsType = { positiveSign: false, seconds: false },
+  options: optionsType = {
+    plusSign: false,
+    seconds: false,
+    type: "represent",
+  },
 ) => {
-  const { positiveSign, seconds } = options;
+  const { plusSign, seconds, type } = options;
 
-  const sign =
-    milliseconds < 0 ? "-" : milliseconds > 0 && positiveSign ? "+" : "";
+  let duration = Duration.fromMillis(milliseconds);
 
-  const format = seconds ? "h:mm:ss" : "h:mm";
+  const sign = milliseconds < 0 ? "-" : milliseconds > 0 && plusSign ? "+" : "";
 
-  return (
-    sign + Duration.fromMillis(milliseconds).toFormat(format).replace(/-/g, "")
-  );
+  const { hour, minute } = DateTime.fromObject({
+    hour: 0,
+    minute: 0,
+    second: 0,
+  }).plus(duration);
+
+  let format: string;
+
+  if (type === "represent") {
+    format =
+      hour === 0 && minute === 0
+        ? "s's'"
+        : hour > 0
+          ? "h'h'mm"
+          : minute < 0
+            ? "mm'm'"
+            : "m'm'";
+  } else {
+    duration = duration.shiftTo("minute", "second");
+    format = "mm:ss";
+  }
+
+  return sign + duration.toFormat(format).replace(/-/g, "");
 };
 
 export const formatTime = (milliseconds: number) => {

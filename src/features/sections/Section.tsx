@@ -18,17 +18,25 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import CountdownTaskList from "../tasks/components/CountdownTaskList";
 
 function Section() {
-  const { part, totalTasksTime, ready, setReady, freeTime } =
-    useSectionTaskContext();
+  const {
+    part,
+    totalTasksTime,
+    ready,
+    setReady,
+    freeTime,
+    start,
+    setStart,
+    initialRunTime,
+  } = useSectionTaskContext();
 
-  const [start, setStart] = useState(false);
   const [open, setOpen] = useState(false);
 
   const { title, startTime, endTime } = part;
 
-  const startCountdown = () => {
+  const checkError = () => {
     if (!ready.value) {
       setReady((preState) => ({
         ...preState,
@@ -37,7 +45,14 @@ function Section() {
       return;
     }
 
-    if (freeTime > 0) setOpen(true);
+    if (freeTime > 0) {
+      setOpen(true);
+    }
+  };
+
+  const startCountdown = () => {
+    setStart(true);
+    initialRunTime();
   };
 
   const buttonClasses = cx(
@@ -48,8 +63,33 @@ function Section() {
     },
   );
 
+  const startJSX = {
+    notStart: {
+      button: (
+        <div className="flex items-center justify-center gap-6">
+          <button onClick={checkError} className={buttonClasses}>
+            <Play size={18} color="white" />
+          </button>
+          <p className="text-xs">
+            <span className="mr-2 font-semibold">start:</span>
+            <span>{formatTime(startTime)}</span>
+          </p>
+        </div>
+      ),
+      taskList: <TaskList />,
+    },
+    start: {
+      countdown: (
+        <div className="mb-6">
+          <CountDown onStart={setStart} />
+        </div>
+      ),
+      taskList: <CountdownTaskList />,
+    },
+  };
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8">
       <header className=" border-b-2 border-dashed px-2 pb-6">
         {/* Section title */}
         <div className="inline-block">
@@ -86,29 +126,17 @@ function Section() {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction asChild>
-              <button onClick={() => setStart(true)}>Continue</button>
+              <button onClick={startCountdown}>Continue</button>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
 
-      {!start && (
-        <div className="flex items-center justify-center gap-6">
-          <button onClick={startCountdown} className={buttonClasses}>
-            <Play size={18} color="white" />
-          </button>
-          <p className="text-xs">
-            <span className="mr-2 font-semibold">start:</span>
-            <span>{formatTime(startTime)}</span>
-          </p>
-        </div>
-      )}
-
-      {start && <CountDown onStart={setStart} />}
+      {start ? startJSX.start.countdown : startJSX.notStart.button}
 
       {/* Tasks */}
       <div>
-        <TaskList />
+        {start ? startJSX.start.taskList : startJSX.notStart.taskList}
         <ModeProvider>
           <AddTask />
         </ModeProvider>

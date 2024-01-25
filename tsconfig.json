@@ -13,6 +13,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "checkJs": false,
 
     /* Linting */
     "strict": true,
@@ -23,9 +24,7 @@
     // From Shadcn to resolve paths
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"],

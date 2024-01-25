@@ -26,16 +26,16 @@ function AddTask() {
   const placeholderAddTaskJSX = (
     <div
       onClick={handleClickPlaceholder}
-      className="absolute inset-0 flex cursor-pointer items-center gap-2 border-b bg-white px-3 py-2 text-[#8c95a2] hover:bg-[#f7f8f9]"
+      className="absolute inset-0 flex cursor-pointer items-center gap-3 border-b bg-white px-2 py-2 text-[#8c95a2] hover:bg-[#f7f8f9]"
     >
-      <Plus size={13} weight="bold" />
+      <Plus size={13} weight="bold" className="w-5 px-0.5 text-center" />
       <span>Add Task</span>
     </div>
   );
 
   return (
     <div className="relative w-full border-[#F0F1F3]">
-      <div className="flex h-10 items-center justify-between border-b px-3">
+      <div className="flex h-10 items-center justify-between border-b px-2 pl-10">
         {/* warning: input must have ID */}
         <input
           id="add-task"
