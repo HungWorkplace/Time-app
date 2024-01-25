@@ -38,7 +38,7 @@ export const DUMMY_TASKS = [
       allDay: false,
     },
     mode: "minute",
-    status: STATUS.DONE,
+    status: STATUS.NOT_STARTED,
   },
   {
     id: "task-3",
@@ -77,7 +77,7 @@ export const DUMMY_TASKS = [
       allDay: false,
     },
     mode: "minute",
-    status: STATUS.DONE,
+    status: STATUS.NOT_STARTED,
   },
   {
     id: "task-6",
@@ -90,6 +90,6 @@ export const DUMMY_TASKS = [
       allDay: false,
     },
     mode: "minute",
-    status: STATUS.DONE,
+    status: STATUS.NOT_STARTED,
   },
 ];

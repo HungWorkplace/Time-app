@@ -19,7 +19,7 @@ function Task({ task, isOverlay }: { task: any; isOverlay?: boolean }) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: task.id, data: task });
+  } = useSortable({ id: task.id, data: { task, type: "task" } });
 
   // DOC: Transform - scale x times element
   // Translate: Not scale
