@@ -50,7 +50,7 @@ function TaskList() {
   );
 
   const handleDragStart = (event) => {
-    const data = event.active.data.current;
+    const data = event.active.data.current.task;
 
     setActiveTask(data);
   };

@@ -32,15 +32,14 @@ function Task({ task, isOverlay }: { task: any; isOverlay?: boolean }) {
   const groupClasses = cx(
     "flex justify-between items-center px-2 h-10 border-b border-[#F0F1F3] cursor-pointer bg-white transition-[width] ease-in duration-300 select-none",
     {
-      "relative z-50": isDragging,
-      "shadow-md w-[95%] rounded-md ": isOverlay,
-      "border-black": start && task.status === STATUS.DOING,
-      "text-[#757575]": start && task.status === STATUS.NOT_STARTED,
+      "relative z-50 border-none": isDragging,
+      "shadow-md w-[95%] rounded-md border-none ": isOverlay,
+      "text-[#757575]": start,
     },
   );
 
-  const titleClasses = cx("flex-1 text-sm font-medium", {
-    "font-normal": start && task.status === STATUS.NOT_STARTED,
+  const titleClasses = cx("flex-1 text-sm font-medium font-normal", {
+    "line-through": start && task.status === STATUS.DONE,
   });
 
   // const renderedMode = (() => {
@@ -102,7 +101,7 @@ function Task({ task, isOverlay }: { task: any; isOverlay?: boolean }) {
 
       {isDragging && (
         <>
-          <div className="absolute inset-0 bg-gray-100"></div>
+          <div className="absolute inset-0 rounded-md bg-gray-100"></div>
           <div className="absolute inset-x-0 top-0 h-0.5 bg-[#a0caf2]"></div>
         </>
       )}

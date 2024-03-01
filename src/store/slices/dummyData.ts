@@ -6,7 +6,10 @@ export const DUMMY_TASKS = [
     partOfDayId: ["part-1"],
     title: "Drink water",
     duration: 10 * 60 * 1000,
-    elapsedTime: 0,
+    counter: {
+      elapsedTime: 0,
+      stopwatch: [],
+    },
     percent: {
       value: 0,
       allDay: false,
@@ -19,7 +22,10 @@ export const DUMMY_TASKS = [
     partOfDayId: ["part-1"],
     title: "Exercise for 30 minutes",
     duration: 2 * 60 * 1000,
-    elapsedTime: 0,
+    counter: {
+      elapsedTime: 0,
+      stopwatch: [],
+    },
     percent: {
       value: 0,
       allDay: false,
@@ -32,7 +38,10 @@ export const DUMMY_TASKS = [
     partOfDayId: ["part-1"],
     title: "Read a book",
     duration: 1 * 10 * 1000,
-    elapsedTime: 0,
+    counter: {
+      elapsedTime: 0,
+      stopwatch: [],
+    },
     percent: {
       value: 0,
       allDay: false,
@@ -45,7 +54,10 @@ export const DUMMY_TASKS = [
     partOfDayId: ["part-1"],
     title: "Write a journal",
     duration: 30 * 60 * 1000,
-    elapsedTime: 0,
+    counter: {
+      elapsedTime: 0,
+      stopwatch: [],
+    },
     percent: {
       value: 0,
       allDay: false,
@@ -58,7 +70,10 @@ export const DUMMY_TASKS = [
     partOfDayId: ["part-1"],
     title: "Learn a new skill",
     duration: 20 * 60 * 1000,
-    elapsedTime: 0,
+    counter: {
+      elapsedTime: 0,
+      stopwatch: [],
+    },
     percent: {
       value: 0,
       allDay: false,
@@ -71,7 +86,10 @@ export const DUMMY_TASKS = [
     partOfDayId: ["part-1"],
     title: "walking the dog",
     duration: 20 * 60 * 1000,
-    elapsedTime: 0,
+    counter: {
+      elapsedTime: 0,
+      stopwatch: [],
+    },
     percent: {
       value: 0,
       allDay: false,
@@ -84,7 +102,10 @@ export const DUMMY_TASKS = [
     partOfDayId: ["part-1"],
     title: "Jogging",
     duration: 20 * 60 * 1000,
-    elapsedTime: 0,
+    counter: {
+      elapsedTime: 0,
+      stopwatch: [],
+    },
     percent: {
       value: 0,
       allDay: false,

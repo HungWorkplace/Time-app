@@ -1,5 +1,6 @@
 import { useDroppable } from "@dnd-kit/core";
 import Task from "./Task";
+import { cx } from "class-variance-authority";
 
 type GroupDroppable = {
   title: string;
@@ -8,7 +9,7 @@ type GroupDroppable = {
 
 function GroupDroppable({ title, tasks }: GroupDroppable) {
   const isEmptyTasks = tasks.length === 0;
-  const { setNodeRef } = useDroppable({
+  const { setNodeRef, isOver } = useDroppable({
     id: "group-" + title.toLowerCase(),
     disabled: !isEmptyTasks,
     data: {
@@ -16,17 +17,29 @@ function GroupDroppable({ title, tasks }: GroupDroppable) {
     },
   });
 
+  const titleWrapperClasses = cx("relative mb-4 h-8 border-b-2 border-dashed", {
+    "border-sky-200": isEmptyTasks && isOver,
+  });
+
+  const titleClasses = cx(
+    "absolute bottom-0 left-1/2 inline-block -translate-x-1/2 translate-y-1/2 bg-white px-2 font-medium",
+    {
+      "text-sky-500": isEmptyTasks && isOver,
+    },
+  );
+
+  const placeholderClasses = cx("rounded-md", {
+    "h-10 w-full bg-[#F8F8F8]": isEmptyTasks,
+    "bg-sky-100": isOver,
+  });
+
   return (
     <div ref={setNodeRef}>
-      <div className="relative mb-4 h-8 border-b-2 border-dashed">
-        <span className="absolute bottom-0 left-1/2 inline-block -translate-x-1/2 translate-y-1/2 bg-white px-2 font-medium">
-          {title}
-        </span>
+      <div className={titleWrapperClasses}>
+        <span className={titleClasses}>{title}</span>
       </div>
       {tasks?.map((task) => <Task key={task.id} task={task} />)}
-      {isEmptyTasks && (
-        <div className="h-10 w-full rounded-md bg-gray-100"></div>
-      )}
+      {isEmptyTasks && <div className={placeholderClasses}></div>}
     </div>
   );
 }

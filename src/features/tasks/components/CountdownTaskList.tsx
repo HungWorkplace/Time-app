@@ -20,6 +20,8 @@ import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 import { taskListActions } from "@/store/slices/taskListSlice";
 import GroupDroppable from "./GroupDroppable";
+import AddTask from "./AddTask";
+import ModeProvider from "@/contexts/mode-context";
 
 // const DUMMY = {
 //   runningTask: {
@@ -81,26 +83,9 @@ function CountdownTaskList() {
 
   const doneTasks = sectionTasks.filter((task) => task.status === STATUS.DONE);
 
-  // Extract code
-  const dropToGroup = (agrs: { groupId: string; activeId: string }) => {
-    const { groupId, activeId } = agrs;
-
-    const status = {
-      "group-queue": STATUS.NOT_STARTED,
-      "group-done": STATUS.DONE,
-    };
-
-    dispatch(
-      taskListActions.setTaskStatus({
-        id: activeId,
-        status: status[groupId],
-      }),
-    );
-  };
-
   // Events
   const handleDragStart = (event) => {
-    const data = event.active.data.current;
+    const data = event.active.data.current.task;
 
     setActiveTask(data);
   };
@@ -128,12 +113,12 @@ function CountdownTaskList() {
 
     dispatch(taskListActions.setTaskIds({ id: partId, taskIds: newOrder }));
 
-    if (activeData.status === overData.status) return;
+    if (activeData.task.status === overData.task.status) return;
 
     dispatch(
       taskListActions.setTaskStatus({
-        id: activeData.id,
-        status: overData.status,
+        id: activeData.task.id,
+        status: overData.task.status,
       }),
     );
   };
@@ -143,21 +128,22 @@ function CountdownTaskList() {
 
     const { active, over } = event;
 
-    // If Drag and drop outside DndContext, these code following arise error
-    if (!over) return;
+    if (!active || !over) return;
 
-    if (active.id !== over.id) {
-      // const oldIndex = tasks.findIndex((task) => task.id === active.id);
-      // const newIndex = tasks.findIndex((task) => task.id === over.id);
-      // const newTasks = arrayMove(tasks, oldIndex, newIndex);
-      // dispatch(taskListActions.setTasks(newTasks));
+    if (over.data.current.type === "group") {
+      const status: Record<string, string> = {
+        "group-queue": STATUS.NOT_STARTED,
+        "group-done": STATUS.DONE,
+      };
+
+      dispatch(
+        taskListActions.setTaskStatus({
+          id: active.id,
+          status: status[over.id],
+        }),
+      );
     }
   };
-
-  const renderedTasks = (tasks) => ({
-    JSX: tasks?.map((task) => <Task key={task.id} task={task} />) || [],
-    ids: tasks?.map((task) => task.id) || [],
-  });
 
   return (
     <DndContext
@@ -171,15 +157,19 @@ function CountdownTaskList() {
     >
       {nextTask && <Task task={nextTask} />}
       <SortableContext
-        items={renderedTasks(notStartedTasks).ids}
+        items={notStartedTasks?.map((task) => task.id) || []}
         strategy={verticalListSortingStrategy}
       >
-        <div>
-          {divideGroupJSX("Queue")}
-          {renderedTasks(notStartedTasks).JSX}
-        </div>
+        <GroupDroppable title="Queue" tasks={notStartedTasks} />
+        <ModeProvider>
+          <AddTask variant={"lite"} />
+        </ModeProvider>
       </SortableContext>
-      <SortableContext items={doneTasks?.map((task) => task.id) || []}>
+
+      <SortableContext
+        items={doneTasks?.map((task) => task.id) || []}
+        strategy={verticalListSortingStrategy}
+      >
         <GroupDroppable title="Done" tasks={doneTasks} />
       </SortableContext>
 

@@ -77,6 +77,11 @@ function Section() {
         </div>
       ),
       taskList: <TaskList />,
+      addTask: (
+        <ModeProvider>
+          <AddTask />
+        </ModeProvider>
+      ),
     },
     start: {
       countdown: (
@@ -137,10 +142,9 @@ function Section() {
       {/* Tasks */}
       <div>
         {start ? startJSX.start.taskList : startJSX.notStart.taskList}
-        <ModeProvider>
-          <AddTask />
-        </ModeProvider>
-        <div className="flex h-10 items-center justify-end gap-2 px-3 text-xs">
+        {!start && startJSX.notStart.addTask}
+
+        <div className="flex h-10 items-center justify-end gap-2 border-t px-3 text-xs">
           <span className="text-gray-300">SUM</span>
           <span>{formatDuration(totalTasksTime)}</span>
         </div>

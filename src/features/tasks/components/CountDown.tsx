@@ -9,34 +9,50 @@ import {
   SkipBack,
   X,
 } from "@phosphor-icons/react";
-import { useCallback, useEffect, useRef } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 
 function CountDown({ onStart }) {
-  const { runningTask, setRunningTask, nextTask, sectionTasks } =
-    useSectionTaskContext();
+  const { runningTask, setRunningTask, nextTask } = useSectionTaskContext();
   const timeoutId = useRef<NodeJS.Timeout>();
+  const runningDuration = useRef<number>(runningTask.duration);
+  const [stopwatch, setStopwatch] = useState<number[]>([1000]);
+  const [elapsedTime, setElapsedTime] = useState(0);
 
   const updateRunningTask = useCallback(() => {
     setRunningTask((preState) => ({
       ...preState,
       duration: preState.duration - 1000,
     }));
+
+    setStopwatch((prevState) => {
+      const updatedStopwatch = [...prevState];
+      updatedStopwatch[updatedStopwatch.length - 1] += 1000;
+      return updatedStopwatch;
+    });
+
+    setElapsedTime((prevState) => prevState + 1000);
   }, [setRunningTask]);
 
   useEffect(() => {
     timeoutId.current = setTimeout(updateRunningTask, 1000);
 
     if (runningTask.duration <= 0 && !runningTask.nonstop) {
-      clearInterval(timeoutId.current);
-      nextTask();
+      handleNextTask();
     }
 
     return () => clearInterval(timeoutId.current);
-  }, [updateRunningTask, runningTask, nextTask]);
+  }, [runningTask.duration]);
 
   const handleNextTask = () => {
     clearInterval(timeoutId.current);
+    setStopwatch([0]);
+    setElapsedTime(0);
     nextTask();
+    runningDuration.current = runningTask.duration;
+  };
+
+  const handlePause = () => {
+    setStopwatch((prevState) => [...prevState, 1000]);
   };
 
   const waittingJSX = (
@@ -64,7 +80,7 @@ function CountDown({ onStart }) {
       <button className="flex h-10 w-10 items-center justify-center rounded-full border-[1.5px] border-black">
         <Check size={14} weight="bold" />
       </button>
-      <button>
+      <button onClick={handlePause}>
         <Coffee size={24} />
       </button>
     </>
@@ -108,6 +124,24 @@ function CountDown({ onStart }) {
       {/* remote */}
       <div className="flex items-center justify-center gap-6">
         {runningTask.id === "wait" ? waittingJSX : runningJSX}
+      </div>
+
+      <div className="flex flex-col items-center gap-5 text-center font-time text-xs">
+        <div className="space-x-1">
+          <span>{formatDuration(elapsedTime)}</span>
+          <span>/</span>
+          <span>{formatDuration(runningDuration.current)}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          {stopwatch.map((time, index) => {
+            return (
+              <Fragment key={index}>
+                {index > 0 && <span>{">"}</span>}
+                <span>{formatDuration(time, { type: "digit" })}</span>
+              </Fragment>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
