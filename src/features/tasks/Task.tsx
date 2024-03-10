@@ -2,12 +2,12 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cx } from "class-variance-authority";
 import { formatDuration } from "@/utils/dateTimeFormat";
-import useSectionTaskContext from "@/contexts/useSectionTaskContext";
+import useSectionTaskContext from "@/hooks/useSectionTaskContext";
 import { CheckSquare } from "@phosphor-icons/react";
 import { useState } from "react";
-import { STATUS } from "@/utils/constains";
+import { STATUS } from "@/utils/constants";
 
-function Task({ task, isOverlay }: { task: any; isOverlay?: boolean }) {
+export function Task({ task, isOverlay }: { task: any; isOverlay?: boolean }) {
   const { title, duration } = task;
   const { ready, start } = useSectionTaskContext();
   const [checked, setChecked] = useState(false);
@@ -108,5 +108,3 @@ function Task({ task, isOverlay }: { task: any; isOverlay?: boolean }) {
     </div>
   );
 }
-
-export default Task;

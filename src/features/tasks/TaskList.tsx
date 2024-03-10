@@ -12,14 +12,14 @@ import {
   arrayMove,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import Task from "./Task";
+import * as taskBarrel from "./";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { taskListActions } from "@/store/slices/taskListSlice";
 import { useDispatch } from "react-redux";
-import useSectionTaskContext from "@/contexts/useSectionTaskContext";
+import useSectionTaskContext from "@/hooks/useSectionTaskContext";
 
-function TaskList() {
+export function TaskList() {
   const {
     sectionTasks: tasks,
     part: { taskIds, id: partId },
@@ -74,7 +74,7 @@ function TaskList() {
   };
 
   const renderedTaskList = tasks.map((task) => (
-    <Task key={task.id} task={task} />
+    <taskBarrel.Task key={task.id} task={task} />
   ));
 
   // SortableContext needs ["id1", "id2",...] that are primary data type. Not use [{id: "1"}, {id: "2"}...]
@@ -94,7 +94,7 @@ function TaskList() {
         </SortableContext>
         {createPortal(
           <DragOverlay>
-            {activeTask && <Task isOverlay task={activeTask} />}
+            {activeTask && <task1.Task isOverlay task={activeTask} />}
           </DragOverlay>,
           document.body,
         )}
@@ -102,5 +102,3 @@ function TaskList() {
     </DndContext>
   );
 }
-
-export default TaskList;

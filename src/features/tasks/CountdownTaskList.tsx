@@ -1,5 +1,5 @@
-import { STATUS } from "@/utils/constains";
-import Task from "./Task";
+import { STATUS } from "@/utils/constants";
+import * as task from "./";
 import {
   DndContext,
   DragOverlay,
@@ -9,7 +9,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import useSectionTaskContext from "@/contexts/useSectionTaskContext";
+import useSectionTaskContext from "@/hooks/useSectionTaskContext";
 import {
   SortableContext,
   arrayMove,
@@ -19,8 +19,6 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 import { taskListActions } from "@/store/slices/taskListSlice";
-import GroupDroppable from "./GroupDroppable";
-import AddTask from "./AddTask";
 import ModeProvider from "@/contexts/mode-context";
 
 // const DUMMY = {
@@ -49,7 +47,7 @@ const divideGroupJSX = (title: string) => {
   );
 };
 
-function CountdownTaskList() {
+export function CountdownTaskList() {
   const {
     sectionTasks,
     part: { id: partId, taskIds },
@@ -155,14 +153,14 @@ function CountdownTaskList() {
       // closestCorners: when move over one of the over item's border
       collisionDetection={closestCorners}
     >
-      {nextTask && <Task task={nextTask} />}
+      {nextTask && <task.Task task={nextTask} />}
       <SortableContext
         items={notStartedTasks?.map((task) => task.id) || []}
         strategy={verticalListSortingStrategy}
       >
-        <GroupDroppable title="Queue" tasks={notStartedTasks} />
+        <task.GroupDroppable title="Queue" tasks={notStartedTasks} />
         <ModeProvider>
-          <AddTask variant={"lite"} />
+          <task.AddTask variant={"lite"} />
         </ModeProvider>
       </SortableContext>
 
@@ -170,17 +168,15 @@ function CountdownTaskList() {
         items={doneTasks?.map((task) => task.id) || []}
         strategy={verticalListSortingStrategy}
       >
-        <GroupDroppable title="Done" tasks={doneTasks} />
+        <task.GroupDroppable title="Done" tasks={doneTasks} />
       </SortableContext>
 
       {createPortal(
         <DragOverlay>
-          {activeTask && <Task isOverlay task={activeTask} />}
+          {activeTask && <task.Task isOverlay task={activeTask} />}
         </DragOverlay>,
         document.body,
       )}
     </DndContext>
   );
 }
-
-export default CountdownTaskList;

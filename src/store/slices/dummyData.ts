@@ -1,4 +1,4 @@
-import { STATUS } from "@/utils/constains";
+import { STATUS } from "@/utils/constants";
 
 export const DUMMY_TASKS = [
   {

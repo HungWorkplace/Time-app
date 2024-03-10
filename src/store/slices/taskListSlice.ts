@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { DUMMY_TASKS } from "./dummyData";
-import { STATUS } from "@/utils/constains";
+import { STATUS } from "@/utils/constants";
 
 type Task = {
   id: string;

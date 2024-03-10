@@ -1,11 +1,9 @@
-import useSectionTaskContext from "@/contexts/useSectionTaskContext";
-import AddTask from "../tasks/components/AddTask";
-import TaskList from "../tasks/components/TaskList";
+import useSectionTaskContext from "@/hooks/useSectionTaskContext";
+import * as task from "../tasks";
 import ModeProvider from "../../contexts/mode-context";
 import { formatDuration, formatTime } from "@/utils/dateTimeFormat";
 import Progress from "@/components/Progress";
 import { Play } from "@phosphor-icons/react";
-import CountDown from "../tasks/components/CountDown";
 import { useState } from "react";
 import { cx } from "class-variance-authority";
 import {
@@ -18,7 +16,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import CountdownTaskList from "../tasks/components/CountdownTaskList";
 
 function Section() {
   const {
@@ -76,20 +73,20 @@ function Section() {
           </p>
         </div>
       ),
-      taskList: <TaskList />,
+      taskList: <task.TaskList />,
       addTask: (
         <ModeProvider>
-          <AddTask />
+          <task.AddTask />
         </ModeProvider>
       ),
     },
     start: {
       countdown: (
         <div className="mb-6">
-          <CountDown onStart={setStart} />
+          <task.CountDown onStart={setStart} />
         </div>
       ),
-      taskList: <CountdownTaskList />,
+      taskList: <task.CountdownTaskList />,
     },
   };
 

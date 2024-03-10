@@ -1,8 +1,8 @@
 import { useState } from "react";
-import IconList from "./IconList";
-import useModeContext from "@/contexts/useModeContext";
+import * as mode from "./";
+import useModeContext from "@/hooks/useModeContext";
 
-function ModeSelect() {
+export function ModeSelect() {
   const [showModeListBox, setShowModeListBox] = useState(false);
   const { currentMode } = useModeContext();
 
@@ -15,10 +15,11 @@ function ModeSelect() {
         {currentMode.icon}
       </span>
       {showModeListBox && (
-        <IconList onClose={setShowModeListBox} showModeIcon={showModeListBox} />
+        <mode.IconList
+          onClose={setShowModeListBox}
+          showModeIcon={showModeListBox}
+        />
       )}
     </div>
   );
 }
-
-export default ModeSelect;

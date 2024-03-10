@@ -1,10 +1,10 @@
 import { useState } from "react";
-import TaskMode from "../features/modes/TaskMode";
+import * as mode from "../modes";
 import { Plus } from "@phosphor-icons/react";
-import useModeContext from "@/contexts/useModeContext";
+import useModeContext from "@/hooks/useModeContext";
 import { cva } from "class-variance-authority";
 
-function AddTask({ variant }) {
+export function AddTask({ variant }) {
   const [activeAddBox, setActiveAddBox] = useState(false);
   const { inputContentRef: inputRef, addTask } = useModeContext();
 
@@ -78,7 +78,7 @@ function AddTask({ variant }) {
           className="flex-1 text-sm font-medium outline-none placeholder:font-light placeholder:text-gray-400"
         />
         <div className="flex flex-1 justify-between gap-3">
-          <TaskMode />
+          <mode.TaskMode />
         </div>
       </div>
 
@@ -86,5 +86,3 @@ function AddTask({ variant }) {
     </div>
   );
 }
-
-export default AddTask;

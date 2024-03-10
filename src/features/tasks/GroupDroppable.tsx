@@ -1,5 +1,5 @@
 import { useDroppable } from "@dnd-kit/core";
-import Task from "./Task";
+import * as taskBarrel from "./";
 import { cx } from "class-variance-authority";
 
 type GroupDroppable = {
@@ -7,7 +7,7 @@ type GroupDroppable = {
   tasks: any;
 };
 
-function GroupDroppable({ title, tasks }: GroupDroppable) {
+export function GroupDroppable({ title, tasks }: GroupDroppable) {
   const isEmptyTasks = tasks.length === 0;
   const { setNodeRef, isOver } = useDroppable({
     id: "group-" + title.toLowerCase(),
@@ -38,10 +38,8 @@ function GroupDroppable({ title, tasks }: GroupDroppable) {
       <div className={titleWrapperClasses}>
         <span className={titleClasses}>{title}</span>
       </div>
-      {tasks?.map((task) => <Task key={task.id} task={task} />)}
+      {tasks?.map((task) => <taskBarrel.Task key={task.id} task={task} />)}
       {isEmptyTasks && <div className={placeholderClasses}></div>}
     </div>
   );
 }
-
-export default GroupDroppable;

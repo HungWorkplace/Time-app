@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { SectionTaskContext } from "./combine-section-task";
+import { SectionTaskContext } from "../contexts/combine-section-task";
 
 const useSectionTaskContext = () => {
   return useContext(SectionTaskContext);

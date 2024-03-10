@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import useSectionTaskContext from "@/contexts/useSectionTaskContext";
+import useSectionTaskContext from "@/hooks/useSectionTaskContext";
 import { formatDuration, formatTime } from "@/utils/dateTimeFormat";
 import {
   ArrowsOutSimple,
@@ -11,7 +11,7 @@ import {
 } from "@phosphor-icons/react";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 
-function CountDown({ onStart }) {
+export function CountDown({ onStart }) {
   const { runningTask, setRunningTask, nextTask } = useSectionTaskContext();
   const timeoutId = useRef<NodeJS.Timeout>();
   const runningDuration = useRef<number>(runningTask.duration);
@@ -146,5 +146,3 @@ function CountDown({ onStart }) {
     </div>
   );
 }
-
-export default CountDown;
