@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { timeFormat } from "@/utils/dateTimeFormat";
-import useSectionTaskContext from "@/contexts/useSectionTaskContext";
-import useModeContext from "@/contexts/useModeContext";
+import { formatDuration } from "@/utils/dateTimeFormat";
+import useSectionTaskContext from "@/hooks/useSectionTaskContext";
+import useModeContext from "@/hooks/useModeContext";
 
-function InputPercent() {
+export function InputPercent() {
   const { touchedIconBox, inputRef, addTask } = useModeContext();
   const { sectionDuration, tempoDuration, setTempoDuration } =
     useSectionTaskContext();
@@ -58,10 +58,8 @@ function InputPercent() {
       />
       <span>-</span>
       <span className="flex items-center rounded-md bg-gray-100 px-2 text-center text-xs">
-        {timeFormat(+tempoDuration)}
+        {formatDuration(+tempoDuration)}
       </span>
     </div>
   );
 }
-
-export default InputPercent;

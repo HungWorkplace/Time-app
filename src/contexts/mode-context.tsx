@@ -1,8 +1,8 @@
 import { createContext, useRef, useState } from "react";
-import TASK_MODE from "../features/tasks/features/modes/mode";
+import { TASK_MODE } from "../utils/constantsTSX";
 import { useDispatch } from "react-redux";
 import { taskListActions } from "@/store/slices/taskListSlice";
-import useSectionTaskContext from "./useSectionTaskContext";
+import useSectionTaskContext from "../hooks/useSectionTaskContext";
 
 export const ModeContext = createContext({
   currentMode: TASK_MODE.minutes,
@@ -43,7 +43,7 @@ function ModeProvider({ children }: ModeProvider) {
 
     dispatch(
       taskListActions.addTask({
-        content: currentContent.value || "",
+        title: currentContent.value || "",
         duration,
         percent: {
           value: percentValue,

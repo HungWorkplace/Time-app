@@ -1,85 +1,152 @@
-import useSectionTaskContext from "@/contexts/useSectionTaskContext";
-import AddTask from "../tasks/components/AddTask";
-import TaskList from "../tasks/components/TaskList";
+import useSectionTaskContext from "@/hooks/useSectionTaskContext";
+import * as task from "../tasks";
 import ModeProvider from "../../contexts/mode-context";
-import { cva } from "class-variance-authority";
-import { timeFormat } from "@/utils/dateTimeFormat";
-import { Play, Plus } from "@phosphor-icons/react";
+import { formatDuration, formatTime } from "@/utils/dateTimeFormat";
+import Progress from "@/components/Progress";
+import { Play } from "@phosphor-icons/react";
+import { useState } from "react";
+import { cx } from "class-variance-authority";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 function Section() {
-  const { part, remainingTime, sectionDuration, totalTime } =
-    useSectionTaskContext();
+  const {
+    part,
+    totalTasksTime,
+    ready,
+    setReady,
+    freeTime,
+    start,
+    setStart,
+    initialRunTime,
+  } = useSectionTaskContext();
+
+  const [open, setOpen] = useState(false);
 
   const { title, startTime, endTime } = part;
 
-  const variants = cva("font-semibold", {
-    variants: {
-      state: {
-        positive: "text-gray-500",
-        negative: "text-red-500",
-        match: "text-green-700",
-      },
-    },
-  });
+  const checkError = () => {
+    if (!ready.value) {
+      setReady((preState) => ({
+        ...preState,
+        animationKey: preState.animationKey + 1,
+      }));
+      return;
+    }
 
-  const styleByState = variants({
-    state:
-      remainingTime < 0
-        ? "negative"
-        : remainingTime === 0
-          ? "match"
-          : "positive",
-  });
+    if (freeTime > 0) {
+      setOpen(true);
+    }
+  };
+
+  const startCountdown = () => {
+    setStart(true);
+    initialRunTime();
+  };
+
+  const buttonClasses = cx(
+    "flex h-[2.1875rem] w-[4.75rem] items-center justify-center rounded-full",
+    {
+      "bg-black": ready.value,
+      "bg-[#CACACA]": !ready.value,
+    },
+  );
+
+  const startJSX = {
+    notStart: {
+      button: (
+        <div className="flex items-center justify-center gap-6">
+          <button onClick={checkError} className={buttonClasses}>
+            <Play size={18} color="white" />
+          </button>
+          <p className="text-xs">
+            <span className="mr-2 font-semibold">start:</span>
+            <span>{formatTime(startTime)}</span>
+          </p>
+        </div>
+      ),
+      taskList: <task.TaskList />,
+      addTask: (
+        <ModeProvider>
+          <task.AddTask />
+        </ModeProvider>
+      ),
+    },
+    start: {
+      countdown: (
+        <div className="mb-6">
+          <task.CountDown onStart={setStart} />
+        </div>
+      ),
+      taskList: <task.CountdownTaskList />,
+    },
+  };
 
   return (
-    <>
-      <header className="border-b-2 border-dashed p-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-end gap-9">
+    <div className="flex flex-col gap-8">
+      <header className=" border-b-2 border-dashed px-2 pb-6">
+        {/* Section title */}
+        <div className="inline-block">
+          <div className="flex items-end gap-10">
             <h1 className="text-xl font-semibold leading-none">{title}</h1>
             <div className="space-x-2 text-xs">
-              <span>{timeFormat(startTime)}</span>
+              <span>{formatTime(startTime)}</span>
               <span>-</span>
-              <span>{timeFormat(endTime)}</span>
+              <span>{formatTime(endTime)}</span>
             </div>
           </div>
 
-          {/* Button play */}
-          <span className="flex h-7 w-12 cursor-pointer items-center justify-center rounded-full bg-black">
-            <Play size={16} color="white" />
-          </span>
-        </div>
-
-        {/* Second line */}
-        <div className="mt-6 flex w-full items-end justify-between text-sm">
-          <div className="">
-            <span className={styleByState}>
-              {timeFormat(remainingTime, { positiveSign: true })}
-            </span>
-            <span className="mx-1">/</span>
-            <span>{timeFormat(sectionDuration)}</span>
-          </div>
-          <div className="space-x-2">
-            <span>
-              <span className="font-semibold">start: </span>
-              {timeFormat(startTime)}
-            </span>
-            <span className="text-lg">+</span>
+          {/* Progress bar */}
+          <div className="mt-6">
+            <div className="mb-2">
+              <Progress />
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="mt-4">
-        <TaskList />
-        <ModeProvider>
-          <AddTask />
-        </ModeProvider>
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              <span>You have</span>
+              <span className="mx-1 font-semibold">
+                {formatDuration(freeTime)}
+              </span>
+              <span>unused time left, do you still want to continue?</span>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction asChild>
+              <button onClick={startCountdown}>Continue</button>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {start ? startJSX.start.countdown : startJSX.notStart.button}
+
+      {/* Tasks */}
+      <div>
+        {start ? startJSX.start.taskList : startJSX.notStart.taskList}
+        {!start && startJSX.notStart.addTask}
+
+        <div className="flex h-10 items-center justify-end gap-2 border-t px-3 text-xs">
+          <span className="text-gray-300">SUM</span>
+          <span>{formatDuration(totalTasksTime)}</span>
+        </div>
       </div>
-      <div className="px-3 py-2 text-right">
-        <span className="text-gray-700">SUM: </span>
-        {timeFormat(totalTime)}
-      </div>
-    </>
+    </div>
   );
 }
 

@@ -1,0 +1,2 @@
+Building MockAPI via "json-server" is a lot of work to do. 
+If it's simple, we lost more stuffs such as "validation, schema..."

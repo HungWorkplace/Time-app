@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import useSectionTaskContext from "@/contexts/useSectionTaskContext";
-import useModeContext from "@/contexts/useModeContext";
+import useSectionTaskContext from "@/hooks/useSectionTaskContext";
+import useModeContext from "@/hooks/useModeContext";
 
-function InputTime() {
+export function InputTime() {
   const { touchedIconBox, inputRef, addTask } = useModeContext();
   const { setTempoDuration } = useSectionTaskContext();
 
@@ -49,9 +49,7 @@ function InputTime() {
       autoComplete="off"
       id="minute-input"
       type="number"
-      className="w-10 rounded-md border py-1 text-center text-xs outline-none focus:border-sky-300"
+      className="w-10 border-b py-1 text-center text-sm outline-none focus:border-black"
     />
   );
 }
-
-export default InputTime;

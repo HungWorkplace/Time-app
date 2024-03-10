@@ -1,9 +1,8 @@
-import useModeContext from "@/contexts/useModeContext";
-import TASK_MODE from "../mode";
-import InputPercent from "./InputPercent";
-import InputTime from "./InputTime";
+import useModeContext from "@/hooks/useModeContext";
+import { TASK_MODE } from "../../utils/constantsTSX";
+import * as input from "./";
 
-function InputMode() {
+export function InputMode() {
   const { currentMode } = useModeContext();
 
   const inputRendered = () => {
@@ -11,9 +10,9 @@ function InputMode() {
 
     switch (currentMode.label) {
       case minutes.label:
-        return <InputTime />;
+        return <input.InputTime />;
       case percent.label:
-        return <InputPercent />;
+        return <input.InputPercent />;
       case flex.label:
         return;
       default:
@@ -23,5 +22,3 @@ function InputMode() {
 
   return <div>{inputRendered()}</div>;
 }
-
-export default InputMode;

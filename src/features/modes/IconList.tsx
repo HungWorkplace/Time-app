@@ -1,13 +1,13 @@
 import { useEffect, useRef } from "react";
-import TASK_MODE from "./mode";
-import useModeContext from "../../../../contexts/useModeContext";
+import { TASK_MODE } from "../../utils/constantsTSX";
+import useModeContext from "../../hooks/useModeContext";
 
 interface IconList {
   onClose: any;
   showModeIcon: any;
 }
 
-function IconList({ onClose, showModeIcon }: IconList) {
+export function IconList({ onClose, showModeIcon }: IconList) {
   const modeList = useRef<HTMLDivElement>(null);
   const { minutes, percent, flex } = TASK_MODE;
   const { setCurrentMode, setTouchedIconBox } = useModeContext();
@@ -63,5 +63,3 @@ function IconList({ onClose, showModeIcon }: IconList) {
     </div>
   );
 }
-
-export default IconList;
